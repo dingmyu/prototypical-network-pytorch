@@ -2,3 +2,5 @@
 __pycache__
 save/
 *.ipynb_checkpoints
+mini_test_CDANE.txt
+mini_trainval_feature.txt

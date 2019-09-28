@@ -27,13 +27,13 @@ if __name__ == '__main__':
     #set_gpu(args.gpu)
     ensure_path(args.save_path)
 
-    trainset = MiniImageNet('/mnt/lustre/dingmingyu/Research/da_zsl/dataset/mini-imagenet/', dataset='mini-imagenet', mode='train')
+    trainset = MiniImageNet('./',  mode='mini_trainval_feature')
     train_sampler = CategoriesSampler(trainset.label, 100,
                                       args.train_way, args.shot + args.query)
     train_loader = DataLoader(dataset=trainset, batch_sampler=train_sampler,
                               num_workers=8, pin_memory=True)
 
-    valset = MiniImageNet('/mnt/lustre/dingmingyu/Research/da_zsl/dataset/mini-imagenet/', dataset='mini-imagenet', mode='val_new_domain')
+    valset = MiniImageNet('./', mode='mini_test_CDANE')
     val_sampler = CategoriesSampler(valset.label, 400,
                                     args.test_way, args.shot + args.query)
     val_loader = DataLoader(dataset=valset, batch_sampler=val_sampler,
