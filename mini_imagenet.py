@@ -1,3 +1,4 @@
+import os
 import os.path as osp
 from PIL import Image
 
@@ -5,32 +6,19 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 
-ROOT_PATH = './materials/'
-
 
 class MiniImageNet(Dataset):
 
-    def __init__(self, setname):
-        csv_path = osp.join(ROOT_PATH, setname + '.csv')
-        lines = [x.strip() for x in open(csv_path, 'r').readlines()][1:]
-
+    def __init__(self, root='', dataset='', mode='train'):
         data = []
         label = []
-        lb = -1
 
-        self.wnids = []
-
-        for l in lines:
-            name, wnid = l.split(',')
-            path = osp.join(ROOT_PATH, 'images', name)
-            if wnid not in self.wnids:
-                self.wnids.append(wnid)
-                lb += 1
-            data.append(path)
-            label.append(lb)
-
+        self.root = root
         self.data = data
         self.label = label
+        self.dataset = dataset
+        self.mode = mode
+        self._load_dataset()
 
         self.transform = transforms.Compose([
             transforms.Resize(84),
@@ -39,6 +27,17 @@ class MiniImageNet(Dataset):
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
         ])
+
+    def _load_dataset(self):
+        path = self.root
+        fw = open(os.path.join('dataset', self.dataset, self.mode+'.txt'))
+        lines = fw.readlines()
+        for line in lines:
+            img_path = os.path.join(path, line.split()[0])
+            labels = int(line.split()[1])
+            self.data.append(img_path)
+            self.label.append(labels)
+        fw.close()
 
     def __len__(self):
         return len(self.data)

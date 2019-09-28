@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     set_gpu(args.gpu)
 
-    dataset = MiniImageNet('test')
+    dataset = MiniImageNet('/mnt/lustre/dingmingyu/Research/da_zsl/dataset/mini-imagenet/', dataset='mini-imagenet', mode='test_new_domain_fsl')
     sampler = CategoriesSampler(dataset.label,
                                 args.batch, args.way, args.shot + args.query)
     loader = DataLoader(dataset, batch_sampler=sampler,

@@ -24,16 +24,16 @@ if __name__ == '__main__':
     args = parser.parse_args()
     pprint(vars(args))
 
-    set_gpu(args.gpu)
+    #set_gpu(args.gpu)
     ensure_path(args.save_path)
 
-    trainset = MiniImageNet('train')
+    trainset = MiniImageNet('/mnt/lustre/dingmingyu/Research/da_zsl/dataset/mini-imagenet/', dataset='mini-imagenet', mode='train')
     train_sampler = CategoriesSampler(trainset.label, 100,
                                       args.train_way, args.shot + args.query)
     train_loader = DataLoader(dataset=trainset, batch_sampler=train_sampler,
                               num_workers=8, pin_memory=True)
 
-    valset = MiniImageNet('val')
+    valset = MiniImageNet('/mnt/lustre/dingmingyu/Research/da_zsl/dataset/mini-imagenet/', dataset='mini-imagenet', mode='val_new_domain')
     val_sampler = CategoriesSampler(valset.label, 400,
                                     args.test_way, args.shot + args.query)
     val_loader = DataLoader(dataset=valset, batch_sampler=val_sampler,

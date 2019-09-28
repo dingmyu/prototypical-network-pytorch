@@ -10,6 +10,7 @@ class CategoriesSampler():
         self.n_per = n_per
 
         label = np.array(label)
+        print(label)
         self.m_ind = []
         for i in range(max(label) + 1):
             ind = np.argwhere(label == i).reshape(-1)
